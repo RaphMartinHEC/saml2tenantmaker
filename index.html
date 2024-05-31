@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,34 +11,41 @@
             margin: 0;
             padding: 20px;
         }
+
         .container {
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
+
         .label {
             font-weight: bold;
         }
+
         .output {
             border: 1px solid #ccc;
             padding: 10px;
             font-size: 14px;
             cursor: pointer;
         }
+
         .preview {
             resize: none;
             border: 1px solid #ccc;
             padding: 10px;
             font-size: 14px;
-            height: 50px; /* Adjust height as needed */
+            height: 50px;
+            /* Adjust height as needed */
             background-color: #eee;
         }
+
         .info-text {
             font-size: 12px;
             color: #aaa;
         }
     </style>
 </head>
+
 <body>
     <h1>SAML2 Tenant Configuration</h1>
     <div class="container">
@@ -45,7 +53,7 @@
         <input type="text" id="command" value="php artisan saml2:create-tenant" readonly disabled>
         <div class="label">* Key:</div>
         <input type="text" id="key" value="" required>
-		<div class="info-text">The key must be unique (in case of several tenants).</div>
+        <div class="info-text">The key must be unique (in case of several tenants).</div>
         <div class="label">* entityId:</div>
         <input type="text" id="entityId" value="" required>
         <div class="label">* loginUrl:</div>
@@ -54,37 +62,37 @@
         <input type="text" id="logoutUrl" value="" required>
         <div class="label">* x509cert:</div>
         <textarea id="x509cert" rows="4" required></textarea>
-		<div class="info-text">All line breaks will be removed before copying.</div>
-		<textarea id="preview" class="preview" disabled></textarea>
+        <div class="info-text">All line breaks will be removed before copying.</div>
+        <textarea id="preview" class="preview" disabled></textarea>
         <div class="output" id="output">Copy to Clipboard</div>
     </div>
-            <script>
-const output = document.getElementById('output');
-const key = document.getElementById('key');
-const command = document.getElementById('command');
-const entityId = document.getElementById('entityId');
-const loginUrl = document.getElementById('loginUrl');
-const logoutUrl = document.getElementById('logoutUrl');
-const x509cert = document.getElementById('x509cert');
-const preview = document.getElementById('preview');
+    <script>
+        const output = document.getElementById('output');
+        const key = document.getElementById('key');
+        const command = document.getElementById('command');
+        const entityId = document.getElementById('entityId');
+        const loginUrl = document.getElementById('loginUrl');
+        const logoutUrl = document.getElementById('logoutUrl');
+        const x509cert = document.getElementById('x509cert');
+        const preview = document.getElementById('preview');
 
-// Pre-populate preview on page load with existing command values
-const initialText = `${command.value} --key=${key.value} --entityId=${entityId.value} --loginUrl=${loginUrl.value} --logoutUrl=${logoutUrl.value} --x509cert=""`;
-preview.value = initialText;
+        // Pre-populate preview on page load with existing command values
+        const initialText = `${command.value} --key=${key.value} --entityId=${entityId.value} --loginUrl=${loginUrl.value} --logoutUrl=${logoutUrl.value} --x509cert=""`;
+        preview.value = initialText;
 
-// Update preview on any input change
-const updatePreview = () => {
-  const certWithoutCarriageReturns = x509cert.value.replace(/\n/g, '');
-  const text = `${command.value} --key=${key.value} --entityId=${entityId.value} --loginUrl=${loginUrl.value} --logoutUrl=${logoutUrl.value} --x509cert="${certWithoutCarriageReturns}"`;
-  preview.value = text;
-};
+        // Update preview on any input change
+        const updatePreview = () => {
+            const certWithoutCarriageReturns = x509cert.value.replace(/\n/g, '');
+            const text = `${command.value} --key=${key.value} --entityId=${entityId.value} --loginUrl=${loginUrl.value} --logoutUrl=${logoutUrl.value} --x509cert="${certWithoutCarriageReturns}"`;
+            preview.value = text;
+        };
 
-// Attach updatePreview function to all relevant input events
-key.addEventListener('input', updatePreview);
-entityId.addEventListener('input', updatePreview);
-loginUrl.addEventListener('input', updatePreview);
-logoutUrl.addEventListener('input', updatePreview);
-x509cert.addEventListener('input', updatePreview);
+        // Attach updatePreview function to all relevant input events
+        key.addEventListener('input', updatePreview);
+        entityId.addEventListener('input', updatePreview);
+        loginUrl.addEventListener('input', updatePreview);
+        logoutUrl.addEventListener('input', updatePreview);
+        x509cert.addEventListener('input', updatePreview);
 
         output.addEventListener('click', () => {
             // Remove carriage returns from x509cert value
@@ -99,4 +107,5 @@ x509cert.addEventListener('input', updatePreview);
         });
     </script>
 </body>
+
 </html>
